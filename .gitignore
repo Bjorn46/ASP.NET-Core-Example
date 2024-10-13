@@ -1,1 +1,61 @@
+# Ignore Visual Studio files
 .vs/
+*.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore build output directories
+bin/
+obj/
+
+# Ignore NuGet packages
+*.nupkg
+**/packages/*
+**/project.lock.json
+*.db
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.log
+*.cache
+*.tlog
+*.pdb
+*.mdb
+
+# Ignore Visual Studio Code workspace files
+.vscode/
+.history/
+
+# Ignore IDE-specific files
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignore environment variable settings (if using local secrets)
+secrets.json
+
+# Ignore appsettings file if you don't want it tracked (optional)
+#appsettings.json
+
+# Ignore user-specific settings files
+*.db
+*.log
+*.pid
+*.seed
+*.pdb
+*.sublime-project
+
+# Ignore specific files that might be generated
+*.vs/
+*.db
+*.DS_Store
+*.sln.docstates
+
+# Ignore build-related files
+project.assets.json
+project.nuget.cache
+project.lock.json
+
