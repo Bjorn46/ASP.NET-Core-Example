@@ -1,7 +1,7 @@
 # BADassignment-2
 Assignment two of backend development
 
-##Typical Errors
+## Typical Errors
 If you have errors, then you might miss the obj folder. 
 Try compile the program and the obj folder will be generated, then the errors should dissapear.
 
