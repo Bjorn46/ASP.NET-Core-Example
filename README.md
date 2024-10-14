@@ -41,15 +41,17 @@ Username: sa
 Password: YourStrongPassword!
 
 Click 'Connect'.
-![createdatabase](./doc/Screenshots/Azuredatastudio.png)
+
+<img src="./doc/Screenshots/Azuredatastudio.png" alt="Azuredatastudio" width="400"/>
 
 ## Creating a Database
 Once connected, you can create a new database using a SQL Query:
+
 - CREATE DATABASE FoodApp
 
-![query](./doc/Screenshots/newquery.png)
+<img src="./doc/Screenshots/createdatabase.png" alt="createdatabase" width="400"/>
 
-![database](./doc/Screenshots/createdatabase.png)
+<img src="./doc/Screenshots/newquery.png" alt="newquery" width="400"/>
 
 
 
