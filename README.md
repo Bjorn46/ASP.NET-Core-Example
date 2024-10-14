@@ -49,9 +49,9 @@ Once connected, you can create a new database using a SQL Query:
 
 - CREATE DATABASE FoodApp
 
-<img src="./doc/Screenshots/createdatabase.png" alt="createdatabase" width="400"/>
-
 <img src="./doc/Screenshots/newquery.png" alt="newquery" width="400"/>
+
+<img src="./doc/Screenshots/createdatabase.png" alt="createdatabase" width="400"/>
 
 
 
