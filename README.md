@@ -54,6 +54,16 @@ Once connected, you can create a new database using a SQL Query:
 <img src="./doc/Screenshots/createdatabase.png" alt="createdatabase" width="400"/>
 
 ## Generate C# Code based on current database schema with scaffolding tool
+### This part is not needed to do, since it's already done!
+If you are interested in how to do it, see the following.
+
+Run the scaffold command
+- dotnet ef dbcontext scaffold "Data Source=localhost,1433;Database=FoodApp;User Id=sa;Password=YourStrongPassword!;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+If you want to test it out and delete your current Models and DbContext then you can use the following command at the end of the scaffold command
+--force
+
+
 
 
 
