@@ -1,13 +1,23 @@
-﻿namespace EFSolution.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace EFSolution.Models;
+
+public partial class Trip
 {
-    public class Trip
-    {
-        public int TripId { get; set; }
-        public string PickupAdress { get; set; }
-        public string DeliveryAdress { get; set; }
-        public DateTime PickupTime { get; set; }
-        public DateTime DeliveryTime { get; set; }
-        // CyclistId is a foreign key
-        public int CyclistId { get; set; }
-    }
+    public int TripId { get; set; }
+
+    public int? CyclistId { get; set; }
+
+    public string? PickupAdress { get; set; }
+
+    public string? DeliveryAdress { get; set; }
+
+    public TimeOnly? DeliveryTime { get; set; }
+
+    public TimeOnly? PickupTime { get; set; }
+
+    public DateOnly? TripDate { get; set; }
+
+    public virtual Cyclist? Cyclist { get; set; }
 }

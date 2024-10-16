@@ -1,14 +1,25 @@
-﻿namespace EFSolution.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace EFSolution.Models;
+
+public partial class Dish
 {
-    public class Dish
-    {
-        public int DishId { get; set; }
-        public string DishName { get; set; }
-        public string Quantity { get; set; }
-        public decimal Price { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        //CookId is a foreign key
-        public string CookId { get; set; }
-    }
+    public int DishId { get; set; }
+
+    public int? CookId { get; set; }
+
+    public decimal? Price { get; set; }
+
+    public TimeOnly? EndTime { get; set; }
+
+    public TimeOnly? StartTime { get; set; }
+
+    public string? DishName { get; set; }
+
+    public int? Quantity { get; set; }
+
+    public virtual Cook? Cook { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }
