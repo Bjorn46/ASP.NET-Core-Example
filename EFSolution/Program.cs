@@ -10,7 +10,7 @@ namespace EFSolution
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var conn = builder.Configuration["ConnectionStrings:DefaultConnection"];
+            var conn = builder.Configuration.GetConnectionString("FoodAppDatabase");
             builder.Services.AddDbContext<FoodAppContext>(options =>
             {
                 options.UseSqlServer(conn); // Ensure you use the correct connection string

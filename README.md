@@ -53,6 +53,9 @@ Once connected, you can create a new database using a SQL Query:
 
 <img src="./doc/Screenshots/createdatabase.png" alt="createdatabase" width="400"/>
 
+## Generate C# Code based on current database schema with scaffolding tool
+
+
 
 
 
