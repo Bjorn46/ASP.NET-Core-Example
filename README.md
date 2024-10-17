@@ -13,6 +13,9 @@ Remember to download following nuget packages:
 - dotnet add package Swashbuckle.AspNetCore
 - dotnet add package Swashbuckle.AspNetCore.Swagger
 - dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+- dotnet add package Microsoft.Extensions.Logging
+- dotnet add package Microsoft.Extensions.Logging.Console
+
 
 ## EF Core setup
 Installs the Entity Framework Core (EF-Core) CLI (dotnet-ef) tool globally on your system
