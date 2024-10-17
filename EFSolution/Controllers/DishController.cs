@@ -10,7 +10,7 @@ using EFSolution.Models;
 
 namespace EFSolution.Controllers
 {
-    public class DishController : Controller
+    public class DishController : ControllerBase
     {
         private readonly FoodAppContext _context;
 

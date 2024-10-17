@@ -10,7 +10,7 @@ using EFSolution.Models;
 
 namespace EFSolution.Controllers
 {
-    public class OrderDetailController : Controller
+    public class OrderDetailController : ControllerBase
     {
         private readonly FoodAppContext _context;
 
