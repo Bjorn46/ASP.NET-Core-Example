@@ -2,8 +2,8 @@
 Assignment two of backend development
 
 ## Resources for developing ASP.NET Core Applications
-RESTful web API design: https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design
-Create web APIs with ASP.NET Core: https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-8.0
+- RESTful web API design: https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design
+- Create web APIs with ASP.NET Core: https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-8.0
 
 ## Typical Errors
 If you have errors, then you might miss the obj folder. 
