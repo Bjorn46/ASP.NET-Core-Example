@@ -6,6 +6,8 @@
 *.userosscache
 *.sln.docstates
 
+aspnetcore-dev-cert.pfx
+
 # Ignore build output directories
 bin/
 obj/
