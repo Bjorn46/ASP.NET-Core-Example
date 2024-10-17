@@ -12,6 +12,7 @@ Remember to download following nuget packages:
 - dotnet add package Microsoft.EntityFrameworkCore.Design
 - dotnet add package Swashbuckle.AspNetCore
 - dotnet add package Swashbuckle.AspNetCore.Swagger
+- dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 
 ## EF Core setup
 Installs the Entity Framework Core (EF-Core) CLI (dotnet-ef) tool globally on your system
@@ -57,11 +58,18 @@ Once connected, you can create a new database using a SQL Query:
 ### This part is not needed to do, since it's already done!
 If you are interested in how to do it, see the following.
 
-Run the scaffold command
+Run the scaffold command to genereate models and Dbcontext
 - dotnet ef dbcontext scaffold "Data Source=localhost,1433;Database=FoodApp;User Id=sa;Password=YourStrongPassword!;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -o Models
 
 If you want to test it out and delete your current Models and DbContext then you can use the following command at the end of the scaffold command
 --force
+
+Run the scaffold command to generate controllers
+- dotnet aspnet-codegenerator controller -name YourControllerName -m YourModelName -dc YourDbContextName -outDir Controllers
+
+
+## Migration
+
 
 
 

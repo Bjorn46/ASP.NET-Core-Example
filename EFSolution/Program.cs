@@ -1,6 +1,5 @@
-using EFSolution.Data;
 using Microsoft.EntityFrameworkCore;
-
+using EFSolution.Data;
 namespace EFSolution
 {
     public class Program
@@ -13,7 +12,7 @@ namespace EFSolution
             var conn = builder.Configuration.GetConnectionString("FoodAppDatabase");
             builder.Services.AddDbContext<FoodAppContext>(options =>
             {
-                options.UseSqlServer(conn); // Ensure you use the correct connection string
+                options.UseSqlServer(conn);
             });
             builder.Services.AddControllers();
 
@@ -35,6 +34,8 @@ namespace EFSolution
             app.MapControllers();
 
             app.Run();
+
         }
+
     }
 }

@@ -49,3 +49,12 @@ In ASP.NET Core, scaffolding tools can generate:
 
 Example:
 If we have an existing SQL Database, we can then genereate models, DbContext, controllers with the scaffolding tool.
+
+## What is migration?
+Migrations in Entity Framework (EF) are a way to manage changes to your database schema over time in a structured and version-controlled manner. Here is an overview of what migrations are and why they are used:
+What Are Migrations?
+    Schema Changes: Migrations are used to apply changes to the database schema, such as creating new tables, modifying existing ones, or removing them.
+    Automatic Updates: Migrations allow you to automatically generate the necessary SQL commands to update your database schema based on changes in your model classes (e.g., adding a property to a model class results in a new column in the database).
+    Easy Rollback: If a migration introduces a problem, you can easily revert to a previous migration, restoring the database to its prior state.
+
+See README.md document for how to use migration in your project.
