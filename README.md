@@ -14,7 +14,6 @@ Remember to download following nuget packages:
 - dotnet add package Swashbuckle.AspNetCore.Swagger
 - dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 
-
 ## EF Core setup
 Installs the Entity Framework Core (EF-Core) CLI (dotnet-ef) tool globally on your system
 - dotnet tool install --global dotnet-ef
@@ -58,7 +57,6 @@ Once connected, you can create a new database using a SQL Query:
 ## Generate C# Code based on current database schema with scaffolding tool
 ### This part is not needed to do, since it's already done!
 If you are interested in how to do it, see the following.
-
 Install the code generator tool
 - dotnet tool install --global dotnet-aspnet-codegenerator
 
@@ -68,7 +66,7 @@ Run the scaffold command to genereate models and Dbcontext
 If you want to test it out and delete your current Models and DbContext then you can use the following command at the end of the scaffold command
 --force
 
-Run the scaffold command to generate controllers
+Run the scaffold command to generate controllers (These do not generate good code for RESTful API)
 - dotnet aspnet-codegenerator controller -name YourControllerName -m YourModelName -dc YourDbContextName -outDir Controllers
 
 ## Migration
