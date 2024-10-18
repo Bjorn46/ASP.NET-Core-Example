@@ -146,3 +146,17 @@ public class User
     public string PasswordHash { get; set; } // sensitive info
 }
 ```
+
+## Why do we use DTO, and why not just use Models?
+Security Concerns:
+
+Models often represent the database schema and include sensitive fields (e.g., passwords, personal data, internal identifiers). Exposing these fields directly to external systems or clients (via APIs, for example) could lead to security risks. DTOs allow you to limit the data that is shared.
+For example, if you expose a User model, it might include sensitive information like passwords or internal IDs. Using a UserDTO can help ensure only non-sensitive data (like name, email, etc.) is sent.
+
+Separation of Concerns:
+
+Models are often closely tied to your database and internal business logic, while DTOs are meant for communication with external systems, such as APIs or different application layers. If your models change (e.g., due to database schema changes), those changes can unintentionally affect external clients if you're using models directly. DTOs provide a buffer between your internal data structures and external interfaces.
+
+Performance:
+
+Models often include large amounts of data that aren't always necessary for the external world. Using DTOs allows you to transfer only the necessary information, reducing the size of the payload, which can improve performance when dealing with APIs.
