@@ -124,6 +124,9 @@ A DTO (Data Transfer Object) is a simple object used to transfer data between di
 Purpose: It acts as a container to move data between layers, such as from a controller to a view, or between services.
 Structure: Typically a lightweight object with just fields or properties. It does not contain business logic or methods, just data.
 
+<img src="./Screenshots/DTOvsModels.png" alt="DTOvsModels" width="600"/>
+
+Example on a DTO:
 ```C#
 public class UserDto
 {
@@ -133,5 +136,27 @@ public class UserDto
 }
 ```
 
-<img src="./doc/Screenshots/DTOvsModels.png" alt="DTOvsModels" width="400"/>
+Example on a Model:
+```C#
+public class User
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public string PasswordHash { get; set; } // sensitive info
+}
+```
 
+## Why do we use DTO, and why not just use Models?
+Security Concerns:
+
+Models often represent the database schema and include sensitive fields (e.g., passwords, personal data, internal identifiers). Exposing these fields directly to external systems or clients (via APIs, for example) could lead to security risks. DTOs allow you to limit the data that is shared.
+For example, if you expose a User model, it might include sensitive information like passwords or internal IDs. Using a UserDTO can help ensure only non-sensitive data (like name, email, etc.) is sent.
+
+Separation of Concerns:
+
+Models are often closely tied to your database and internal business logic, while DTOs are meant for communication with external systems, such as APIs or different application layers. If your models change (e.g., due to database schema changes), those changes can unintentionally affect external clients if you're using models directly. DTOs provide a buffer between your internal data structures and external interfaces.
+
+Performance:
+
+Models often include large amounts of data that aren't always necessary for the external world. Using DTOs allows you to transfer only the necessary information, reducing the size of the payload, which can improve performance when dealing with APIs.
