@@ -10,6 +10,8 @@ using EFSolution.Models;
 
 namespace EFSolution.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class CyclistController : ControllerBase
     {
         private readonly FoodAppContext _context;
@@ -19,6 +21,11 @@ namespace EFSolution.Controllers
             _context = context;
         }
 
-        
+        [HttpGet]
+        public IActionResult GetAllCyclists()
+        {
+            var cyclists = _context.Cyclists;
+            return Ok(cyclists);
+        }
     }
 }
