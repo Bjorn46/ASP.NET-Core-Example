@@ -135,3 +135,23 @@ public class UserDto
 
 <img src="./Screenshots/DTOvsModels.png" alt="DTOvsModels" width="600"/>
 
+Example on a DTO:
+```C#
+public class UserDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+}
+```
+
+Example on a Model:
+```C#
+public class User
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public string PasswordHash { get; set; } // sensitive info
+}
+```
