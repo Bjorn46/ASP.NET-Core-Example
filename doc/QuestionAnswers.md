@@ -81,6 +81,7 @@ It simplifies tasks like model validation, binding data from requests, and gener
 ## What is an seed function and how do you implement it?
 A seed function is used to seed dummy data to the database. It can be implemented as a class, as following:
 .\Data\Seeder.cs
+```C#
 namespace EFSolution.Data
 {
     public class Seeder
@@ -103,10 +104,11 @@ namespace EFSolution.Data
         }
     }
 }
-
+```
 
 Then added to program.cs to call the function to seed the database as following:
 .\program.cs
+```C#
 // Seed the database
 using (var scope = app.Services.CreateScope())
 {
@@ -114,3 +116,4 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate(); // Ensure database is up to date
     Seeder.Seed(context); // Call the Seeder method to seed the database
 }
+```
