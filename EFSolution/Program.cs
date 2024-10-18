@@ -22,6 +22,14 @@ namespace EFSolution
 
             var app = builder.Build();
 
+            // Seed the database
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<FoodAppContext>();
+                context.Database.Migrate(); // Ensure database is up to date
+                Seeder.Seed(context); // Call the Seeder method to seed the database
+            }
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
