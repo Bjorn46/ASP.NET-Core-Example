@@ -117,3 +117,21 @@ using (var scope = app.Services.CreateScope())
     Seeder.Seed(context); // Call the Seeder method to seed the database
 }
 ```
+
+## What is an DTO?
+A DTO (Data Transfer Object) is a simple object used to transfer data between different layers of an application. It is often used to reduce the amount of data being sent over the network and to protect the internal structure of the application by exposing only the necessary information.
+
+Purpose: It acts as a container to move data between layers, such as from a controller to a view, or between services.
+Structure: Typically a lightweight object with just fields or properties. It does not contain business logic or methods, just data.
+
+```C#
+public class UserDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+}
+```
+
+<img src="./doc/Screenshots/DTOvsModels.jpg" alt="DTOvsModels" width="400"/>
+
