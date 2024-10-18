@@ -78,3 +78,39 @@ This can help you understand what queries are being executed and if they are opt
 An [ApiController] in ASP.NET Core is an attribute used to mark a class as a Web API controller. This attribute provides specific conventions and behavior that are optimized for building RESTful APIs. 
 It simplifies tasks like model validation, binding data from requests, and generating standardized error responses.
 
+## What is an seed function and how do you implement it?
+A seed function is used to seed dummy data to the database. It can be implemented as a class, as following:
+.\Data\Seeder.cs
+namespace EFSolution.Data
+{
+    public class Seeder
+    {
+        // Seed method
+        public static void Seed(FoodAppContext context)
+        {
+            // Check if the database has been seeded
+            if (!context.Dishes.Any())
+            {
+                context.Dishes.AddRange(new List<Dish>
+                {
+                    new Dish { DishName = "Potatoes with sauce", Price = 10.0m },
+                    new Dish { DishName = "Rice and beef", Price = 20.0m },
+                    new Dish { DishName = "Spagetti and sauce", Price = 30.0m },
+                });
+
+                context.SaveChanges(); // Save changes to the database
+            }
+        }
+    }
+}
+
+
+Then added to program.cs to call the function to seed the database as following:
+.\program.cs
+// Seed the database
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<FoodAppContext>();
+    context.Database.Migrate(); // Ensure database is up to date
+    Seeder.Seed(context); // Call the Seeder method to seed the database
+}
