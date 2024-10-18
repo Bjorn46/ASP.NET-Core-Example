@@ -48,6 +48,8 @@ Authentication Type: SQL Login
 Username: sa
 Password: YourStrongPassword!
 
+(Remember that this is part of your connection string that you will use later in your application to connect to the database)
+
 Click 'Connect'.
 
 <img src="./doc/Screenshots/Azuredatastudio.png" alt="Azuredatastudio" width="400"/>
@@ -61,11 +63,19 @@ Once connected, you can create a new database using a SQL Query:
 
 <img src="./doc/Screenshots/createdatabase.png" alt="createdatabase" width="400"/>
 
+## Connecting our application to the database with the connection string (in this case FoodApp).
+First assemble your connection string
+- "Data Source=localhost,1433;Database=FoodApp;User Id=sa;Password=YourStrongPassword!;TrustServerCertificate=True"
+
+The information is of course related to our project, but find your information when you created your database. (See database setup)
+
 ## Generate C# Code based on current database schema with scaffolding tool
 ### This part is not needed to do, since it's already done!
 If you are interested in how to do it, see the following.
 Install the code generator tool
 - dotnet tool install --global dotnet-aspnet-codegenerator
+
+- Find your connection string (See Creating a Database)
 
 Run the scaffold command to genereate models and Dbcontext
 - dotnet ef dbcontext scaffold "Data Source=localhost,1433;Database=FoodApp;User Id=sa;Password=YourStrongPassword!;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -o Models
