@@ -133,5 +133,5 @@ public class UserDto
 }
 ```
 
-<img src="./doc/Screenshots/DTOvsModels.png" alt="DTOvsModels" width="400"/>
+<img src="./Screenshots/DTOvsModels.png" alt="DTOvsModels" width="400"/>
 
