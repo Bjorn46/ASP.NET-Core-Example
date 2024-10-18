@@ -124,15 +124,6 @@ A DTO (Data Transfer Object) is a simple object used to transfer data between di
 Purpose: It acts as a container to move data between layers, such as from a controller to a view, or between services.
 Structure: Typically a lightweight object with just fields or properties. It does not contain business logic or methods, just data.
 
-```C#
-public class UserDto
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Email { get; set; }
-}
-```
-
 <img src="./Screenshots/DTOvsModels.png" alt="DTOvsModels" width="600"/>
 
 Example on a DTO:
