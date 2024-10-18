@@ -4,6 +4,7 @@ Assignment two of backend development
 ## Resources for developing ASP.NET Core Applications
 - RESTful web API design: https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design
 - Create web APIs with ASP.NET Core: https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-8.0
+- Generate or find connection string: https://www.c-sharpcorner.com/UploadFile/suthish_nair/how-to-generate-or-find-connection-string-from-visual-studio/
 
 ## Typical Errors
 If you have errors, then you might miss the obj folder. 
@@ -67,7 +68,7 @@ Once connected, you can create a new database using a SQL Query:
 First assemble your connection string
 - "Data Source=localhost,1433;Database=FoodApp;User Id=sa;Password=YourStrongPassword!;TrustServerCertificate=True"
 
-The information is of course related to our project, but find your information when you created your database. (See database setup)
+The information is of course related to our project, but find your information when you created your database. (See under resources for help)
 
 ## Generate C# Code based on current database schema with scaffolding tool
 ### This part is not needed to do, since it's already done!
