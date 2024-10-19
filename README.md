@@ -89,7 +89,6 @@ in Entity Framework Core a migration generates a new migration file that represe
 Basically every time you want to create a new table, or add a new seed function or similar, you need to run a migration to update the database with the new changes.
 
 - dotnet ef migrations add <MigrationName>
-Example: dotnet ef migrations add AddMenuTable
 
 To apply the new changes to the database, you need to run the following command:
 - dotnet ef database update
