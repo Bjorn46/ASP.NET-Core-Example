@@ -27,5 +27,6 @@ namespace EFSolution.Controllers
             var cooks = _context.Cooks;
             return Ok(cooks);
         }
+
     }
 }

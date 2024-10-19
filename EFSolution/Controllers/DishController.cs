@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EFSolution.Data;
 using EFSolution.Models;
+using EFSolution.DTO;
 
 namespace EFSolution.Controllers
 {
@@ -22,11 +23,45 @@ namespace EFSolution.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllDishes()
+        public Task<List<DishDto>> GetAllDishes(FoodAppContext context)
         {
-            var dishes = _context.Dishes;
-            return Ok(dishes);
+            return context.Dishes.Select(d => new DishDto()
+            {
+                DishId = d.DishId,
+                CookId = d.CookId,
+                Quantity = d.Quantity,
+                DishName = d.DishName,
+                Price = d.Price,
+                StartTime = d.StartTime,
+                EndTime = d.EndTime
+            })
+            .ToListAsync();
         }
-        
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DishDto>> GetDish(int id, FoodAppContext context)
+        {
+            var dish = await context.Dishes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(d => d.DishId == id);
+
+            if (dish == null)
+            {
+                return NotFound();
+            }
+
+            //Mapping Dish model to dishDto
+            return new DishDto()
+            {
+                DishId = dish.DishId,
+                CookId = dish.CookId,
+                Quantity = dish.Quantity,
+                DishName = dish.DishName,
+                Price = dish.Price,
+                StartTime = dish.StartTime,
+                EndTime = dish.EndTime
+            };
+        }
+
     }
 }
