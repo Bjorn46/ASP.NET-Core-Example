@@ -17,7 +17,6 @@ Remember to download following nuget packages:
 - dotnet add package Microsoft.EntityFrameworkCore.Design
 - dotnet add package Swashbuckle.AspNetCore
 - dotnet add package Swashbuckle.AspNetCore.Swagger
-- dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 - dotnet add package Microsoft.Extensions.Logging
 - dotnet add package Microsoft.Extensions.Logging.Console
 
@@ -73,8 +72,6 @@ The information is of course related to our project, but find your information w
 ## Generate C# Code based on current database schema with scaffolding tool
 ### This part is not needed to do, since it's already done!
 If you are interested in how to do it, see the following.
-Install the code generator tool
-- dotnet tool install --global dotnet-aspnet-codegenerator
 
 - Find your connection string (See Creating a Database)
 
