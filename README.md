@@ -82,11 +82,11 @@ but one way of finding it, is with Visual Studio. See the following screenshots:
 ### Add connection string to your ASP.NET Application
 Add the following in the file: 'appsettings.json'
 
-- <img src="./doc/Screenshots/appsettings.png" alt="serverExplorer" width="400"/>
+- <img src="./doc/Screenshots/appsettings.png" alt="serverExplorer" width="800"/>
 
 Add the following in the file: 'program.cs'
 
-- <img src="./doc/Screenshots/programcs.png" alt="serverExplorer" width="400"/>
+- <img src="./doc/Screenshots/programcs.png" alt="serverExplorer" width="600"/>
 
 Now you have connected your application to the database!
 
