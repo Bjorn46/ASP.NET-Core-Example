@@ -79,11 +79,22 @@ but one way of finding it, is with Visual Studio. See the following screenshots:
 
 <img src="./doc/Screenshots/string.png" alt="serverExplorer" width="400"/>
 
+### Add connection string to your ASP.NET Application
+Add the following in the file: 'appsettings.json'
+
+- <img src="./doc/Screenshots/appsettings.png" alt="serverExplorer" width="400"/>
+
+Add the following in the file: 'program.cs'
+
+- <img src="./doc/Screenshots/programcs.png" alt="serverExplorer" width="400"/>
+
+Now you have connected your application to the database!
+
 ## Generate C# Code based on current database schema with scaffolding tool
 ### This part is not needed to do, since it's already done!
 If you are interested in how to do it, see the following.
 
-- Find your connection string (See Creating a Database)
+- Find your connection string (See: 'Find your connection string with Visual Studio')
 
 Run the scaffold command to genereate models and Dbcontext
 - dotnet ef dbcontext scaffold "Data Source=localhost,1433;Database=FoodApp;User Id=sa;Password=YourStrongPassword!;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -o Models
