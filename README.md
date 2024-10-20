@@ -102,9 +102,6 @@ Run the scaffold command to genereate models and Dbcontext
 If you want to test it out and delete your current Models and DbContext then you can use the following command at the end of the scaffold command
 --force
 
-Run the scaffold command to generate controllers (These do not generate good code for RESTful API)
-- dotnet aspnet-codegenerator controller -name YourControllerName -m YourModelName -dc YourDbContextName -outDir Controllers
-
 ## Migration
 in Entity Framework Core a migration generates a new migration file that represents the changes needed to create or update the database schema based on your current model.
 Basically every time you want to create a new table, or add a new seed function or similar, you need to run a migration to update the database with the new changes.
