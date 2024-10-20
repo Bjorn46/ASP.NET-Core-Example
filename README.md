@@ -67,7 +67,17 @@ Once connected, you can create a new database using a SQL Query:
 First assemble your connection string
 - "Data Source=localhost,1433;Database=FoodApp;User Id=sa;Password=YourStrongPassword!;TrustServerCertificate=True"
 
-The information is of course related to our project, but find your information when you created your database. (See under resources for help)
+### Find your connection string with Visual Studio
+Sometimes you might have created a database long ago, and you don't remember what your connection string is. There is alot of ways to find your connection string,
+but one way of finding it, is with Visual Studio. See the following screenshots:
+
+<img src="./doc/Screenshots/connectionString.png" alt="serverExplorer" width="400"/>
+
+<img src="./doc/Screenshots/addConnection.png" alt="serverExplorer" width="400"/>
+
+<img src="./doc/Screenshots/selectDatabase.png" alt="serverExplorer" width="400"/>
+
+<img src="./doc/Screenshots/string.png" alt="serverExplorer" width="400"/>
 
 ## Generate C# Code based on current database schema with scaffolding tool
 ### This part is not needed to do, since it's already done!
