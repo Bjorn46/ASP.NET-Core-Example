@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
 namespace EFSolution.Models;
 
 public partial class Order
 {
+    [Required]
     public int OrderId { get; set; }
 
+    [Required]
     public int? CustomerId { get; set; }
 
     public DateOnly? OrderDate { get; set; }

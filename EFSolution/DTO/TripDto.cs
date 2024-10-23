@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
 namespace EFSolution.DTO;
 
 public partial class TripDto
 {
+    [Required]
     public int TripId { get; set; }
 
+    [Required]
     public int? CyclistId { get; set; }
 
     public string? PickupAdress { get; set; }

@@ -50,9 +50,9 @@ namespace EFSolution.Data
             {
                 var dishes = new Dish[]
                 {
-                    new Dish { CookId = 1, DishName =  "Potatoes with sauce", Price = 10.0m, Quantity = 50, StartTime = new TimeOnly(12,00), EndTime = new TimeOnly(14,30) },
-                    new Dish { CookId = 1, DishName = "Rice and beef", Price = 20.0m, Quantity = 30, StartTime = new TimeOnly(13,00), EndTime = new TimeOnly(15,00) },
-                    new Dish { CookId = 2,  DishName = "Spaghetti and sauce", Price = 30.0m, Quantity = 20, StartTime = new TimeOnly(11,00), EndTime = new TimeOnly(13,00) }
+                    new Dish { CookId = 1, DishName =  "Potatoes with sauce", Price = 10.0m, Quantity = 50, StartTime = new TimeSpan(12,00, 0), EndTime = new TimeSpan(14,30, 0) },
+                    new Dish { CookId = 1, DishName = "Rice and beef", Price = 20.0m, Quantity = 30, StartTime = new TimeSpan(13,00,00), EndTime = new TimeSpan(15,00,0) },
+                    new Dish { CookId = 2,  DishName = "Spaghetti and sauce", Price = 30.0m, Quantity = 20, StartTime = new TimeSpan(11,00, 0), EndTime = new TimeSpan(13,00, 0) }
                 };
                 context.Dishes.AddRange(dishes);
                 context.SaveChanges();

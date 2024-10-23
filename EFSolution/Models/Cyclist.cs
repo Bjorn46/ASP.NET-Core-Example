@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
 namespace EFSolution.Models;
 
 public partial class Cyclist
 {
+    [Required]
     public int CyclistId { get; set; }
 
+    [Required]
     public int? OrderId { get; set; }
 
     public string? CprNumber { get; set; }
