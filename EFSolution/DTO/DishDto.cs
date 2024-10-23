@@ -6,7 +6,10 @@ namespace EFSolution.DTO;
 
 public partial class DishDto
 {
+
+    [Required]
     public int DishId { get; set; }
+    [Required]
     public int? CookId { get; set; }
     public string? DishName { get; set; }
     public int? Quantity { get; set; }

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
 namespace EFSolution.DTO;
 
 public partial class OrderDetailDto
 {
+
     [Required]
     public int OrderDetailId { get; set; }
 

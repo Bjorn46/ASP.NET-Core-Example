@@ -5,6 +5,7 @@ namespace EFSolution.DTO;
 
 public partial class TripDto
 {
+
     [Required]
     public int TripId { get; set; }
 
