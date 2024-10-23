@@ -1,6 +1,11 @@
 # BADassignment-2
 Assignment two of backend development
 
+## Rules for this repo
+- Don't commit alot of code
+- Clean commits, with short descriptive text
+- If working in main branch, don't use 'git add .'!
+
 ## Resources for developing ASP.NET Core Applications
 - RESTful web API design: https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design
 - Create web APIs with ASP.NET Core: https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-8.0
