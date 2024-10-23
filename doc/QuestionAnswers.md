@@ -160,3 +160,14 @@ Models are often closely tied to your database and internal business logic, whil
 Performance:
 
 Models often include large amounts of data that aren't always necessary for the external world. Using DTOs allows you to transfer only the necessary information, reducing the size of the payload, which can improve performance when dealing with APIs.
+
+## What is a query?
+A query generally refers to a request for information or data, often from a database. The meaning of "query" can vary slightly depending on the context, but it typically involves retrieving or interacting with data based on specific conditions.
+
+Here are common uses of the term "query" in different contexts:
+
+Database Query:
+    In databases, a query is a request for information. It is written in a language like SQL (Structured Query Language) to retrieve, insert, update, or delete data from a database.
+    Example: In SQL, a query to retrieve all users from a table might look like this:
+
+SELECT * FROM Users;
