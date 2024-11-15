@@ -185,7 +185,27 @@ Each log entry also has the thread ID from which it originated, which is helpful
 ## Setting Up ASP.NET with a Website: SignalR vs. RESTful API
 Missing documentation
 
-## Setting up MongoDB with docker
+# MongoDB - Not Only SQL
+
+## Prerequisites
+Download the following nuget packages
+- Serilog.AspNetCore
+- Serilog.Settings.Configuration
+- Serilog.Sinks.MongoDB
+
+Download the following MongoDB Tools
+- https://www.mongodb.com/try/download/compass // Download MongoDB Compass
+- https://www.mongodb.com/try/download/database-tools // Download Database CLI tools
+- https://www.mongodb.com/try/download/shell // Download for MongoDB Shell Commands
+
+## Resources
+- https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-8.0&tabs=visual-studio // Microsoft guide on MongoDB and ASP.NET CORE
+- https://www.mongodb.com/docs/manual/reference/method/js-collection/ // MongoDB Documentation
+- https://github.com/ChangemakerStudios/serilog-sinks-mongodb // Serilog sink MongoDB
+- https://www.adamrussell.com/asp-net-core-logging-with-serilog-to-mongodb-using-configuration // Configuring serilog with MongoDB
+- https://www.youtube.com/watch?v=lgujcmQGuVQ // Video on configuring serilog sink with MongoDB
+
+## Setup
 ### Step 1: Pull the MongoDB docker image
 - docker pull mongo
 
@@ -195,8 +215,198 @@ Missing documentation
 ### Step 3: Setup graphical interface for MongoDB Database with MongoDB Compass
 - Download MongoDB Compass: https://www.mongodb.com/try/download/compass
 
-If you prefer working with the terminal, then use the following link:
+Download database-tools. This will come in handy later, when we will be using 'mongorestore'
 - CLI tools: https://www.mongodb.com/try/download/database-tools
+
+Remember to set the PATH enviroment variable for bin
+
+### Step 4: Setup MongoDB Shell for querying and interacting with MongoDB databases
+- Download: https://www.mongodb.com/try/download/shell
+
+(Remember to setup the enviroment PATH enviroment for bin)
+
+### Step 5: Testing that MongoDB Shell works
+Open a terminal and run the following command to start Mongosh Shell
+- Mongosh
+
+Now make a new database
+- use Database
+
+Test your new database with dummy data, by inserting following commands in to the terminal
+```csharp
+db.myNewCollection1.insertOne({ x: 1 })
+```
+```csharp
+db.inventory.insertMany([
+    { item: "journal", qty: 25, status: "A", size: { h: 14, w: 21, uom: "cm" }, tags: ["blank", "red"] },
+    { item: "notebook", qty: 50, status: "A", size: { h: 8.5, w: 11, uom: "in" }, tags: ["red", "blank"] },
+    { item: "paper", qty: 10, status: "D", size: { h: 8.5, w: 11, uom: "in" }, tags: ["red", "blank", "plain"] },
+    { item: "planner", qty: 0, status: "D", size: { h: 22.85, w: 30, uom: "cm" }, tags: ["blank", "red"] },
+    { item: "postcard", qty: 45, status: "A", size: { h: 10, w: 15.25, uom: "cm" }, tags: ["blue"] }
+])
+```
+
+### Testing Selection Mongosh commands
+Find all documents with status: "D":
+- db.inventory.find({ status: "D" })
+
+Find documents with both qty: 0 and status: "D":
+- db.inventory.find({ qty: 0, status: "D" })
+
+Find documents where tags contain "red":
+- db.inventory.find({ tags: "red" })
+
+Find documents where size is { h: 14, w: 21, uom: "cm" }:
+- db.inventory.find({ size: { h: 14, w: 21, uom: "cm" } })
+  
+Find all documents (no filter):
+- db.inventory.find({})
+
+### Testing Projections (Selecting Specific Fields)
+Find all documents, but only include item and status fields:
+- db.inventory.find({}, { item: 1, status: 1 })
+  
+Find all documents, excluding only the status field:
+- db.inventory.find({}, { status: 0 })
+
+### Sorting and Limiting Results
+Sort by qty in ascending order and limit to 20 documents:
+- db.inventory.find({}).sort({ qty: 1 }).limit(20)
+  
+Skip the first 20 * page documents and limit to 20:
+- db.inventory.find({}).skip(20 * page).limit(20)
+
+### Pattern Matching (Regular Expression)
+Find documents where item starts with "book":
+- db.inventory.find({ item: /^book/ })
+
+Find more on MongoDB Documentation: https://www.mongodb.com/docs/manual/reference/method/js-collection/
+
+## Check if MongoDB is exposed to the host from docker (host = your pc)
+- docker ps
+
+Here you should see: 0.0.0.0:27017->27017/tcp
+
+This means that your MongoDB in docker is exposed to the host and you can run commands with mongosh locally
+
+Verify the connection:
+- mongosh "mongodb://localhost:27017"
+
+Now you can which databases you have created:
+- show dbs
+
+Now connect to your desired database:
+- use Database
+
+## Logging to MongoDB with Serilog
+### Configure and add sinks in appsettings.json
+(OBS. This is a different way of implementing sinks, than showed earlier. Here we are implementing all the configuration and sinks in appsettings.json, where earlier we showed sink implementation in program.cs with some configuration for minimum level in appsettings.json)
+
+```json
+{
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "database": "Data Source=localhost,1433;Initial Catalog=Assignment1;Persist Security Info=True;User ID=sa;Password=YourStrongPassword!;Trust Server Certificate=True"
+  },
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.File", "Serilog.Sinks.MSSqlServer", "Serilog.Sinks.MongoDB" ],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft.AspNetCore": "Warning",
+        "Assignment2": "Debug"
+      }
+    },
+    "Enrich": [ "WithMachineName", "WithThreadId" ],
+    "WriteTo": [
+      {
+        "Name": "File",
+        "Args": {
+          "path": "Logs/log.txt",
+          "outputTemplate": "{Timestamp:HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+          "rollingInterval": "Day"
+        }
+      },
+      {
+        "Name": "MSSqlServer",
+        "Args": {
+          "connectionString": "database",
+          "sinkOptions": {
+            "tableName": "LogEvents",
+            "autoCreateSqlTable": true
+          },
+          "columnOptions": {
+            "additionalColumns": [
+              {
+                "ColumnName": "SourceContext",
+                "PropertyName": "SourceContext",
+                "DataType": "nvarchar"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "Name": "MongoDB",
+        "Args": {
+          "databaseUrl": "mongodb://localhost:27017/myNewDB",
+          "collectionName": "logs",
+          "cappedMaxSizeMb": "1024",
+          "cappedMaxDocuments": "50000",
+          "rollingInterval": "Month"
+        }
+      }
+    ]
+  }
+}
+```
+
+Configure ASP.NET Core to use Serilog as the logging provider for the entire application. This replaces the default logging framework.
+Add this code to program.cs
+```csharp
+// Configure Host to use serilog (Reads from appsettings.json)
+builder.Host.UseSerilog((ctx, lc) =>
+{
+    lc.ReadFrom.Configuration(ctx.Configuration);
+});
+```
+Now that Serilog is configured, all sinks are ready to receive log entries.
+
+PS. We configured Serilog to log to 3 different sinks. SQL Database, a file and MongoDB. If you only wanted to log to mongodb, you would only need the following configuration in appsettings.json
+
+```json
+{
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "MongoDB": "mongodb://localhost:27017/myNewDB"
+  },
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.MongoDB" ],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft.AspNetCore": "Warning",
+        "Assignment2": "Debug"
+      }
+    },
+    "Enrich": [ "WithMachineName", "WithThreadId" ],
+    "WriteTo": [
+      {
+        "Name": "MongoDB",
+        "Args": {
+          "databaseUrl": "mongodb://localhost:27017/myNewDB",
+          "collectionName": "logs",
+          "cappedMaxSizeMb": "1024",
+          "cappedMaxDocuments": "50000"
+        }
+      }
+    ]
+  }
+}
+```
+
+
+
 
 
 
