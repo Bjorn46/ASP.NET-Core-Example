@@ -171,3 +171,141 @@ Database Query:
     Example: In SQL, a query to retrieve all users from a table might look like this:
 
 SELECT * FROM Users;
+
+## What is a logger in ASP.NET Core
+In ASP.NET Core, a logger is a component responsible for recording log messages, which can include information about the application's flow, error details, debugging information, warnings, and other runtime events.
+
+In ASP.NET Core, a logger is a component responsible for recording log messages, which can include information about the application's flow, error details, debugging information, warnings, and other runtime events. Loggers play a crucial role in monitoring, troubleshooting, and debugging applications by providing insights into how the application is performing and helping identify issues in production or during development.
+
+### Key Concepts of a Logger in ASP.NET Core
+
+1. ILogger Interface:
+    ASP.NET Core uses the ILogger interface for logging. This interface provides methods for logging messages at different severity levels (e.g., Information, Warning, Error).
+    Loggers are typically obtained through dependency injection in ASP.NET Core, making them easy to use in any part of the application.
+
+2. Logging Providers:
+    ASP.NET Core logging is provider-based, which means you can plug in different logging providers to control where the logs are written.
+    Built-in providers include the Console, Debug (for Visual Studio output), and Event Log providers. You can also add third-party providers, like Serilog, NLog, and Log4Net.
+
+3. Log Levels:
+    The logger allows you to specify log levels to categorize the importance of each log message. Common log levels include:
+        Trace: Detailed information, typically only useful for debugging.
+        Debug: Information that might be helpful in development.
+        Information: General information about the application’s flow.
+        Warning: Indicates a potential issue or unusual situation.
+        Error: A problem that has occurred, but the application can still continue.
+        Critical: A severe problem that could cause the application to terminate.
+
+4. Log Scopes:
+    Scopes are used to group a set of log entries together. For example, all log entries for a particular HTTP request could be grouped within a single scope.
+    Scopes provide additional context that can be helpful in troubleshooting.
+
+### Understanding Minimum Level Logging
+<img src="./Screenshots/pyramide.png" alt="pyramid" width="600"/>
+
+In the pyramid above, setting a minimum level of "Information" means that all logging events at Information level and above (Warning, Error, Critical) will be logged. Lower levels, such as Trace and Debug, will not be recorded unless specified otherwise.
+
+Here’s an example configuration in appsettings.json:
+
+```csharp
+"Serilog": {
+  "MinimumLevel": {
+    "Default": "Information",
+    "Override": {
+      "Microsoft": "Warning",
+      "MyAppNamespace": "Debug"
+    }
+  }
+}
+```
+In this example:
+
+- "Default": "Information": Sets the default minimum logging level for the entire application to Information. This means that, by default, only Information, Warning, Error, and Critical logs will be recorded.
+- Override: 
+1. "Microsoft": "Warning": Overrides the default logging level specifically for logs from the Microsoft namespace. Only Warning and above logs (Error, Critical) will be recorded for Microsoft-related events.
+2. "MyAppNamespace": "Debug": Sets the minimum level for MyAppNamespace to Debug, allowing logs at Debug level and above (Information, Warning, Error, Critical) for this specific namespace.
+
+This configuration helps you control logging verbosity for different parts of your application, reducing noise from external libraries while enabling more detailed logs in specific areas where needed.
+
+## What are enrichers in serilog?
+In Serilog, enrichers are components that automatically add extra information (properties) to each log event. This additional context can help make logs more informative and easier to filter, search, and analyze.
+
+### Common Use Cases for Enrichers
+
+Enrichers are often used to add context that can help you understand the environment or circumstances around a log entry, such as:
+
+Machine Information: Enrichers can add properties like the machine name or IP address, which can help identify the server or computer where the log was generated.
+User Information: Enrichers can add user-specific information, such as user ID or username, which is useful in applications where you need to track user actions.
+Environment Details: You can add the environment (e.g., development, staging, production) as a property to distinguish logs from different environments.
+Request and Correlation IDs: Enrichers can add unique IDs for requests or transactions, which is useful for tracking a series of related log entries across distributed systems.
+
+### How to Use Enrichers in Serilog
+
+Serilog includes some built-in enrichers, and you can also create custom enrichers.
+Built-in Enrichers
+
+Serilog provides several enrichers out of the box. Some examples include:
+
+Enrich.WithMachineName(): Adds the machine name to each log event.
+Enrich.WithThreadId(): Adds the thread ID to each log event.
+Enrich.WithEnvironmentUserName(): Adds the environment username (current user running the application).
+Enrich.FromLogContext(): Allows adding properties to specific log events within a scope using LogContext.PushProperty.
+
+## What is MongoDB?
+
+MongoDB is a popular, open-source NoSQL database designed for handling large volumes of unstructured data. Unlike traditional relational databases, MongoDB stores data in a flexible, document-oriented format using JSON-like structures called BSON (Binary JSON), allowing for schema flexibility and scalability.
+Key Features
+
+- Document-Oriented: Data is stored as documents (similar to JSON), making it easy to represent complex data structures.
+- Schema Flexibility: MongoDB doesn’t require a fixed schema, allowing for agile development.
+- Horizontal Scalability: Supports sharding, enabling data distribution across multiple servers.
+- Rich Query Language: Includes powerful querying and aggregation capabilities.
+
+## What is Sharding?
+Sharding is a database partitioning technique used by MongoDB to distribute large datasets across multiple servers, or shards. This helps in managing and scaling a database to handle high volumes of data and traffic. Sharding is particularly useful for horizontally scaling a MongoDB deployment, allowing it to accommodate growing data and workloads.
+
+### What does scaling horizontally mean?
+<img src="./Screenshots/shard.png" alt="shard" width="600"/>
+<img src="./Screenshots/shardingvsreplication.png" alt="shardingvsreplication" width="600"/>
+
+### Example of Sharding in MongoDB
+Example of a Sharded MongoDB Cluster
+
+Suppose you have an application with a large dataset, such as a social media platform that stores millions of user profiles. Managing all this data on a single MongoDB server could lead to performance issues, so you decide to use sharding to distribute the data across multiple servers (shards).
+#### Step 1: Choose a Shard Key
+
+The shard key is a field that determines how data is distributed across shards. In this example, let’s use the userId field as the shard key. MongoDB will use this key to decide where each user profile document should be stored.
+#### Step 2: Set Up Shards
+
+Let’s say you set up three MongoDB servers, each serving as a shard in your sharded cluster:
+
+    Shard 1: Stores users with userId values from 1 to 1 million.
+    Shard 2: Stores users with userId values from 1 million to 2 million.
+    Shard 3: Stores users with userId values from 2 million to 3 million.
+
+Each shard holds only a portion of the data, so no single server has to store all user profiles.
+#### Step 3: Data Distribution
+
+When a new user profile is added to the platform, MongoDB determines the shard based on the userId:
+
+    If userId is 500,000, MongoDB stores it in Shard 1.
+    If userId is 1,500,000, MongoDB stores it in Shard 2.
+    If userId is 2,500,000, MongoDB stores it in Shard 3.
+
+Each shard is responsible for a subset of data, allowing MongoDB to distribute storage and query load across multiple servers.
+#### Step 4: Querying the Sharded Cluster
+
+When the application queries for a user profile (e.g., userId: 1,500,000), MongoDB’s query router (using the mongos process) determines which shard holds the data for that userId and directs the query to Shard 2.
+
+If you run a query that spans multiple userId values (e.g., finding users between 1,000,000 and 2,000,000), MongoDB can query both Shard 2 and Shard 3 simultaneously, speeding up the response time.
+#### Step 5: Data Growth and Shard Rebalancing
+
+As your user base grows, one shard may become overloaded. MongoDB automatically rebalances the data by moving chunks of data (small pieces of the dataset) from heavily loaded shards to less loaded shards. For example, if Shard 1 becomes too full, some of its user profile data may be moved to Shard 2.
+Summary of This Sharding Example
+
+- Shard Key: userId, which distributes data across shards.
+- Shards: Each shard holds a subset of the data based on userId values.
+- Query Routing: The query router directs requests to the correct shard(s) based on the shard key.
+- Rebalancing: MongoDB can move chunks of data between shards as data grows to ensure an even distribution.
+
+This sharding setup helps MongoDB handle large volumes of data efficiently by distributing storage and load across multiple servers, improving performance, and allowing the application to scale horizontally as data grows.
