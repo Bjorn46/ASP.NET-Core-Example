@@ -1,5 +1,5 @@
-# BADassignment-2
-Assignment two of backend development
+# ASP.NET Core web API development template
+This template was initially made for an assignment in Aarhus University.
 
 ## Rules for this repo
 - Don't commit alot of code
@@ -115,6 +115,91 @@ Basically every time you want to create a new table, or add a new seed function 
 
 To apply the new changes to the database, you need to run the following command:
 - dotnet ef database update
+
+## Serilog Setup in ASP.NET Core
+### Step 1: Add Serilog NuGet Packages
+- Serilog.AspNetCore
+- Serilog.Sinks.MSSqlServer
+
+### Step 2: Configure Serilog in program.cs
+Add following namespaces:
+using Serilog; // Add Serilog namespace
+using Serilog.Sinks.MSSqlServer; // Required for MSSQL sink
+
+Step-by-Step Placement in Program.cs
+
+1. Add the Serilog Setup: Add Serilog setup before creating the WebApplication builder.
+2. Replace Default Logger: Configure builder.Host.UseSerilog(...) to replace the default logger.
+3. Close the Logger: Ensure the logger is closed properly when the application shuts down.
+
+Add the following code to program.cs
+```csharp
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(new ConfigurationBuilder().AddJsonFile("appsettings.json").Build())
+    .WriteTo.File(
+        "Logs/log.txt",
+        outputTemplate: "{Timestamp:HH:mm:ss} [{Level:u3}] [MachineName #{ThreadId}] {Message:lj}{NewLine}{Exception}",
+        rollingInterval: RollingInterval.Day
+    )
+    .WriteTo.MSSqlServer(
+        connectionString: new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection"),
+        sinkOptions: new MSSqlServerSinkOptions
+        {
+            TableName = "LogEvents",
+            AutoCreateSqlTable = true
+        }
+    )
+    .CreateLogger();
+```
+See file program.cs to see how serilog is configured.
+
+## Adding Serilog enrichers
+
+### Step 1: Add Serilog Enrichers NuGet Packages
+- Serilog.Enrichers.Environment
+- Serilog.Enrichers.Thread
+
+### Step 2: Activate the enrichers
+Configure the enrichers in program.cs before building the application
+
+```csharp
+builder.Host.UseSerilog((ctx, lc) =>
+{
+    lc.ReadFrom.Configuration(ctx.Configuration);
+    lc.Enrich.WithMachineName();
+    lc.Enrich.WithThreadId();
+    lc.WriteTo.File(
+        "Logs/log.txt",
+        outputTemplate: "{Timestamp:HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+        rollingInterval: RollingInterval.Day
+    );
+});
+```
+
+Now we have enhanced our application with Enrichers
+
+With the WithMachineName and WithThreadId enrichers:
+Every log entry includes the machine name where the application is running, useful in distributed systems or multi-server environments.
+Each log entry also has the thread ID from which it originated, which is helpful for debugging multithreaded applications.
+
+## Setting Up ASP.NET with a Website: SignalR vs. RESTful API
+Missing documentation
+
+## Setting up MongoDB with docker
+### Step 1: Pull the MongoDB docker image
+- docker pull mongo
+
+### Step 2: Run the MongoDB docker container
+- docker run -d --name mongo1 -p 27017:27017 mongo
+
+### Step 3: Setup graphical interface for MongoDB Database with MongoDB Compass
+- Download MongoDB Compass: https://www.mongodb.com/try/download/compass
+
+If you prefer working with the terminal, then use the following link:
+- CLI tools: https://www.mongodb.com/try/download/database-tools
+
+
+
 
 
 
