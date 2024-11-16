@@ -10,6 +10,7 @@ This template was initially made for an assignment in Aarhus University.
 - RESTful web API design: https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design
 - Create web APIs with ASP.NET Core: https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-8.0
 - Generate or find connection string: https://www.c-sharpcorner.com/UploadFile/suthish_nair/how-to-generate-or-find-connection-string-from-visual-studio/
+- Serilog https://serilog.net/
 
 ## Typical Errors
 If you have errors, then you might miss the obj folder. 
@@ -464,6 +465,73 @@ public class ExampleController : ControllerBase
 ```
 
 See the controllers in the .NET example code, for more in depth example
+
+# MongoDB Driver in .NET
+A MongoDB Driver is a software library provided by MongoDB or third-party developers that allows applications to interact with MongoDB programmatically. It provides an API for connecting to MongoDB, performing CRUD (Create, Read, Update, Delete) operations, and managing data. MongoDB drivers are designed to work with specific programming languages, enabling seamless integration between MongoDB and the application.
+
+## Resources
+Good examples on querying with MongoDB Driver: https://www.mongodb.com/docs/manual/tutorial/query-documents/ 
+*Preferable way of querying in .NET, is with LINQ: https://www.mongodb.com/docs/drivers/csharp/current/fundamentals/linq/#overview
+
+LINQ is often preferred for querying in .NET due to its readability and SQL-like syntax. While the standard querying approach with the MongoDB Driver allows for more detailed and customized queries, LINQ queries are strongly typed. This means the compiler checks for errors at compile time, such as incorrect field names or types, reducing runtime errors and ensuring that your queries align with your data model.
+
+## Prerequisites
+Install the following nuget package:
+- dotnet add package MongoDB.Driver
+
+## Querying logs with MongoDB Driver
+For querying logs, we need to have a seperate Class/Model for logs. Furthermore we need a seperate controller and service to extract the query the data we want.
+
+- Make a class/model for LogEntry
+
+```csharp
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+[BsonIgnoreExtraElements]
+public class LogEntry
+{
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; }
+
+    [BsonElement("Level")]
+    public string Level { get; set; }
+
+    [BsonElement("Message")]
+    public string Message { get; set; }
+
+    [BsonElement("Properties")]
+    public LogProperties Properties { get; set; }
+}
+
+```
+[BsonIgnoreExtraElements] = Tells MongoDB's C# driver to ignore any extra fields in the MongoDB document that are not explicitly defined in your C# class.
+
+[BsonId] = Marks a property as the unique identifier (ID) for the document in MongoDB. It maps to MongoDB's _id field.
+
+[BsonRepresentation(BsonType.ObjectId)] = Specifies how the property is represented in MongoDB.
+
+[BsonElement("Level")] = Maps a C# property to a specific field name in the MongoDB document. If the MongoDB field name doesn’t match the C# property name, you can use [BsonElement("NameOfField")] to explicitly specify the mapping.
+
+Different models, such as LogProperties, LogInfo, and LogEntry, are needed in a logging system to ensure separation of concerns and modularity. Each model serves a distinct purpose and represents different aspects of the log data. Here's why these different models are used:
+
+- LogEntry
+
+Purpose: Represents the root structure of a log entry.
+
+Why it’s needed:
+    This is the top-level object that encapsulates the entire log entry.
+    It contains fields like the log's unique ID (Id), the logging level (Level), the message (Message), and nested data structures like Properties.
+    It represents a single log document stored in the MongoDB collection.
+
+
+
+
+
+
+
+
 
 
 
