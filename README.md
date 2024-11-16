@@ -471,6 +471,7 @@ A MongoDB Driver is a software library provided by MongoDB or third-party develo
 
 ## Resources
 Good examples on querying with MongoDB Driver: https://www.mongodb.com/docs/manual/tutorial/query-documents/ 
+
 *Preferable way of querying in .NET, is with LINQ: https://www.mongodb.com/docs/drivers/csharp/current/fundamentals/linq/#overview
 
 LINQ is often preferred for querying in .NET due to its readability and SQL-like syntax. While the standard querying approach with the MongoDB Driver allows for more detailed and customized queries, LINQ queries are strongly typed. This means the compiler checks for errors at compile time, such as incorrect field names or types, reducing runtime errors and ensuring that your queries align with your data model.
