@@ -502,8 +502,6 @@ public class LogEntry
     [BsonElement("Message")]
     public string Message { get; set; }
 
-    [BsonElement("Properties")]
-    public LogProperties Properties { get; set; }
 }
 
 ```
