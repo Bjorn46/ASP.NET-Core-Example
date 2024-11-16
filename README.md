@@ -405,6 +405,114 @@ PS. We configured Serilog to log to 3 different sinks. SQL Database, a file and 
 }
 ```
 
+## How to Add Logging to Specific Code (e.g., a Controller)
+
+Logging is incredibly useful and provides valuable insights into what happened during the execution of your application, particularly when clients interact with your database through requests (e.g., via your website or another application). In this section, we will explore how to add logging to different HTTP requests (POST, PUT, GET, DELETE) in a controller.
+Prerequisites
+
+Before adding logging to your code, ensure that:
+
+Serilog is initialized in Program.cs: You must include the Serilog configuration in the builder.
+Configuration is set in appsettings.json: Refer to the earlier documentation on Logging to MongoDB with Serilog for setup details.
+
+- Adding Logging in a Controller
+```csharp
+namespace Assignment2.Controllers
+{
+    [ApiController]
+    [Route("api/assignment2C")]
+    public class Assignment2C_CRUD : ControllerBase
+    {
+        // Dependency injection. Services registered in program.
+        private readonly IAvailableDishService2C _availableDishService;
+        private readonly ILogger<Assignment2C_CRUD> _logger; // Dependency inject logging to the controller
+
+        public Assignment2C_CRUD(IAvailableDishService2C availableDishService, ILogger<Assignment2C_CRUD> logger)
+        {
+            // Constructor Dependency Injection.
+            _availableDishService = availableDishService;
+            _logger = logger; // 
+        }
+
+        /// <summary>
+        /// Add a new dish.
+        /// </summary>
+        [HttpPost(Name = "Create a new dish")]
+        [ProducesResponseType(typeof(AvailableDishDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddDish([FromBody] CreateAvailableDishDto dishDto)
+        {
+            _logger.LogInformation("POST request received."); // Request logging
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var createdDish = await _availableDishService.AddAvailableDishAsync(dishDto);
+
+            return CreatedAtAction(nameof(GetDishById), new { id = createdDish.DishId }, createdDish);
+        }
+
+        /// <summary>
+        /// Get a dish by ID.
+        /// </summary>
+        [HttpGet("{id}", Name = "Get dish by id")]
+        [ProducesResponseType(typeof(AvailableDishDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetDishById(int id)
+        {
+            _logger.LogInformation("GET by id request received."); // Request logging
+            var dish = await _availableDishService.GetAvailableDishByIdAsync(id);
+
+            if (dish == null)
+                return NotFound($"No dish found with ID: {id}");
+
+            return Ok(dish);
+        }
+
+        /// <summary>
+        /// Update the quantity of a dish.
+        /// </summary>
+        [HttpPut("{id}/quantity", Name = "Update dish quantity")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateDishQuantity(int id, [FromBody] UpdateQuantityDto updateDto)
+        {
+            _logger.LogInformation("PUT request received."); // Request logging
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _availableDishService.UpdateDishQuantityAsync(id, updateDto.Quantity);
+
+        if (!result)
+            return NotFound($"No dish found with ID: {id}");
+
+        return NoContent();
+        }
+
+        /// <summary>
+        /// Delete a dish.
+        /// </summary>
+        [HttpDelete("{id}", Name = "Delete dish by id")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteDish(int id)
+        {
+            _logger.LogInformation("DELETE request received."); // Request logging
+            var result = await _availableDishService.DeleteAvailableDishAsync(id);
+
+            if (!result)
+                return NotFound($"No dish found with ID: {id}");
+
+            return NoContent();
+        }
+
+
+    }
+```
+
+
+
+
 
 
 
