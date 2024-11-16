@@ -415,7 +415,7 @@ Before adding logging to your code, ensure that:
 Serilog is initialized in Program.cs: You must include the Serilog configuration in the builder.
 Configuration is set in appsettings.json: Refer to the earlier documentation on Logging to MongoDB with Serilog for setup details.
 
-- Adding Logging in a Controller
+### Adding Logging in a Controller
 ```csharp
 [ApiController]
 [Route("[controller]")]
