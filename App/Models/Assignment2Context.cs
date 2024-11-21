@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Assignment2.Models;
 
-public partial class Assignment2Context : DbContext
+public partial class Assignment2Context : IdentityDbContext<ApplicationUser>
 {
     public Assignment2Context()
     {
@@ -37,6 +38,8 @@ public partial class Assignment2Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder); 
+
         modelBuilder.Entity<AvailableDish>(entity =>
         {
             entity.HasKey(e => e.DishId).HasName("PK__Availabl__9F2B4CF96E6A8AC6");
@@ -113,6 +116,7 @@ public partial class Assignment2Context : DbContext
             entity
                 .Property(e => e.HasPassedFoodSafetyCourse)
                 .HasColumnName("HasPassedFoodSafetyCourse");
+            entity.HasOne(d => d.User).WithOne(p => p.Cook).HasForeignKey<Cook>(d => d.UserId).IsRequired(false); 
 
         });
 
@@ -172,6 +176,8 @@ public partial class Assignment2Context : DbContext
                 .HasForeignKey(d => d.BikeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Cyclist_Bikes");
+            entity.HasOne(d => d.User).WithOne(p => p.Cyclist).HasForeignKey<Cyclist>(d => d.UserId).IsRequired(false);
+
         });
 
         modelBuilder.Entity<Delivery>(entity =>

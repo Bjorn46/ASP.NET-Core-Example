@@ -10,10 +10,13 @@ namespace Assignment2.Controllers
     {
         // Dependency injection. Services registered in program.
         private readonly IAvailableDishService2C _availableDishService;
+        private readonly ILogger<Assignment2C_CRUD> _logger;
 
-        public Assignment2C_CRUD(IAvailableDishService2C availableDishService)
+        public Assignment2C_CRUD(IAvailableDishService2C availableDishService, ILogger<Assignment2C_CRUD> logger)
         {
+            // Constructor Dependency Injection.
             _availableDishService = availableDishService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -24,6 +27,7 @@ namespace Assignment2.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddDish([FromBody] CreateAvailableDishDto dishDto)
         {
+            _logger.LogInformation("POST request received.");
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -40,6 +44,7 @@ namespace Assignment2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetDishById(int id)
         {
+            _logger.LogInformation("GET by id request received.");
             var dish = await _availableDishService.GetAvailableDishByIdAsync(id);
 
             if (dish == null)
@@ -57,6 +62,7 @@ namespace Assignment2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateDishQuantity(int id, [FromBody] UpdateQuantityDto updateDto)
         {
+            _logger.LogInformation("PUT request received.");
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -76,6 +82,7 @@ namespace Assignment2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteDish(int id)
         {
+            _logger.LogInformation("DELETE request received.");
             var result = await _availableDishService.DeleteAvailableDishAsync(id);
 
             if (!result)

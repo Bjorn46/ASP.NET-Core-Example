@@ -1,0 +1,106 @@
+10:50:50 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+10:50:50 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+10:50:50 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+10:50:50 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+10:50:50 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+10:50:50 [INF] No migrations were applied. The database is already up to date.
+10:50:51 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Cook] AS [c]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Available_Dishes] AS [a]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Payment_Options] AS [p]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Customer] AS [c]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Bikes] AS [b]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Cyclist] AS [c]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Trip] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Delivery] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [DishOrder] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Review] AS [r]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:50:51 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+10:50:51 [INF] Now listening on: https://localhost:7294
+10:50:51 [INF] Now listening on: http://localhost:5250
+10:50:51 [INF] Application started. Press Ctrl+C to shut down.
+10:50:51 [INF] Hosting environment: Development
+10:50:51 [INF] Content root path: C:\Users\yassi\Desktop\BAD\BackandDevelopmentAndDatabasesAssignment2\Assignment2
+10:51:17 [INF] Query1: Getting data for all cooks.
+10:51:17 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[address] AS [Address], [c].[phone_number] AS [PhoneNumber], [c].[cook_id] AS [CookId], [c].[HasPassedFoodSafetyCourse]
+FROM [Cook] AS [c]
+10:51:40 [INF] Query2: Getting available dishes for cook with ID 010100-4201.
+10:51:40 [INF] Executed DbCommand (15ms) [Parameters=[@__cookId_0='?' (Size = 100) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Cook] AS [c]
+        WHERE [c].[cook_id] = @__cookId_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+10:51:40 [INF] Executed DbCommand (7ms) [Parameters=[@__cookId_0='?' (Size = 100) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[dish_id], [a].[available_from], [a].[available_to], [a].[cook_id], [a].[currency], [a].[name], [a].[price], [a].[quantity]
+FROM [Available_Dishes] AS [a]
+WHERE [a].[cook_id] = @__cookId_0

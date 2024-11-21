@@ -25,3 +25,4 @@ public partial class AvailableDish
 
     public virtual ICollection<DishOrder> DishOrders { get; set; } = new List<DishOrder>();
 }
+

@@ -17,5 +17,8 @@ public partial class Cyclist
 
     public virtual Bike Bike { get; set; } = null!;
 
+    public string? UserId { get; set; }
+    public virtual ApplicationUser? User { get; set; }
     public virtual ICollection<Trip> Trips { get; set; } = new List<Trip>();
+
 }
