@@ -524,6 +524,22 @@ Why it’s needed:
     It contains fields like the log's unique ID (Id), the logging level (Level), the message (Message), and nested data structures like Properties.
     It represents a single log document stored in the MongoDB collection.
 
+- LogProperties
+LogProperties is used to contextual data, and give insights to e.g. http request, email adress and more.
+
+- LogInfo
+LogInfo is a nested structure within LogProperties that focuses on describing the specific operation or task being logged.
+
+## Querying logs with Mongo Driver and Custom Enrichers
+
+As part of serilog, you can create custom Enrichers. These enrichers will enrich every log with e.g a http request, email adress or user name.
+
+See the implementation in the following files on how to query logs.
+
+/App/Controllers/LogController.cs | /App/CustomEnricher/... | /App/Models/LogEntry.cs...LogInfo.cs...LogProperties.cs | /App/Services/LogService.cs
+
+Remember to see individual controller that logs to the database.
+
 
 
 
