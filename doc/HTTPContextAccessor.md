@@ -83,6 +83,11 @@ builder.Host.UseSerilog((ctx, lc) =>
 # Now to the more individual parts of the code
 ## Components:
 
+```csharp
+var email = _httpContextAccessor.HttpContext?.User.Claims
+    .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? "Unknown Email";
+```
+
 - _httpContextAccessor.HttpContext:
         _httpContextAccessor is an instance of IHttpContextAccessor, which allows access to the current HTTP request and its associated context outside of controllers or middleware.
         HttpContext represents the current HTTP request and response. This includes all request details, headers, cookies, and the user (if authenticated).
