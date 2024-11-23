@@ -1,5 +1,4 @@
-![billede](https://github.com/user-attachments/assets/aa832649-af04-4d43-b4c4-b75a5c798f67)# ASP.NET Core web API development template
-This template was initially made for an assignment in Aarhus University.
+# ASP.NET Core web API development template
 
 ## Rules for this repo
 - Don't commit alot of code
