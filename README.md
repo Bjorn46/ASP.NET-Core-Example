@@ -640,6 +640,13 @@ is the process of verifying that “you are permitted to do what you are trying 
 
 ![billede](https://github.com/user-attachments/assets/5c294e89-8a10-4d2d-8b9f-18e0b5347c5f)
 
+![billede](https://github.com/user-attachments/assets/648a64bf-de0c-49a7-9c27-e2358ca4d8e0)
+
+![billede](https://github.com/user-attachments/assets/37fc3870-24d3-4489-9f3b-7a1d514e9874)
+
+
+
+
 
 
 
