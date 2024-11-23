@@ -81,27 +81,32 @@ builder.Host.UseSerilog((ctx, lc) =>
 ```
 
 # Now to the more individual parts of the code
-var httpMethod = _httpContextAccessor.HttpContext?.Request.Method ?? "Unknown";
-
 ## Components:
 
 - _httpContextAccessor.HttpContext:
-        _httpContextAccessor is an instance of IHttpContextAccessor, which allows you to access the current HttpContext outside of controllers and middleware.
-        HttpContext is an object that represents the current HTTP request and response, providing information such as headers, cookies, user claims, and much more.
-        HttpContext is nullable, meaning it might be null if the HTTP context is not available, such as in background services or certain parts of the application where there is no active HTTP request.
+        _httpContextAccessor is an instance of IHttpContextAccessor, which allows access to the current HTTP request and its associated context outside of controllers or middleware.
+        HttpContext represents the current HTTP request and response. This includes all request details, headers, cookies, and the user (if authenticated).
+        HttpContext is nullable, meaning it could be null if there is no active HTTP context (e.g., in background tasks or certain parts of the application).
 
 - ?. (Null-conditional operator):
-        This is called the null-conditional operator (also known as the safe navigation operator).
-        It is used to safely access members or properties of an object that could be null. If the object (HttpContext in this case) is null, it prevents a NullReferenceException from being thrown and simply returns null instead.
-        In this case, if _httpContextAccessor.HttpContext is null, it will short-circuit and not try to access .Request.Method, so the entire expression would evaluate to null.
+        The ?. is called the null-conditional operator.
+        It ensures that if _httpContextAccessor.HttpContext is null, the subsequent code is not executed, preventing a NullReferenceException. If HttpContext is null, it short-circuits and returns null for the entire expression.
+        In this case, it ensures that if there is no HTTP context (e.g., outside of a web request), it doesn’t attempt to access HttpContext.User.
 
-- HttpContext.Request.Method:
-        HttpContext.Request represents the current HTTP request.
-        .Method is a property of Request that contains the HTTP method (like "GET", "POST", "PUT", "DELETE", etc.) used for the request.
-        If the HttpContext is not null, this retrieves the HTTP method of the incoming request.
+- HttpContext.User.Claims:
+        HttpContext.User represents the currently authenticated user. It contains information about the user, typically from the authentication system (like ASP.NET Core Identity, JWT tokens, or cookies).
+        Claims is a collection of Claim objects associated with the authenticated user. Claims are key-value pairs that represent user-specific data, such as their email, roles, and other attributes.
+        Claims is a list of Claim objects, and we are looking for the claim of type ClaimTypes.Email, which represents the email of the user.
 
-- ?? "Unknown":
+- .FirstOrDefault(c => c.Type == ClaimTypes.Email):
+        FirstOrDefault() is a LINQ method that searches through the collection (Claims) and returns the first claim where the condition c.Type == ClaimTypes.Email is met. This checks for the first claim with the type of Email.
+        If no such claim is found, FirstOrDefault() will return null.
+
+- ?.Value:
+        After using FirstOrDefault(), ?. is again used to safely access the Value property of the Claim object.
+        If FirstOrDefault() returns null (meaning no claim of type Email was found), the ?.Value will safely return null as well, avoiding a NullReferenceException.
+
+- ?? "Unknown Email":
         The ?? is the null-coalescing operator.
-        It is used to provide a default value when the expression on the left-hand side is null.
-        In this case, if _httpContextAccessor.HttpContext?.Request.Method is null (meaning there is no active HTTP context or the Request object is null), the expression will default to "Unknown".
-        Essentially, this ensures that if the HTTP method is unavailable (e.g., in a non-request context), "Unknown" will be used instead of null.
+        If the expression on the left-hand side is null, the operator will return the value on the right-hand side as a fallback.
+        If the email claim is not found (i.e., FirstOrDefault() returns null or ?.Value is null), "Unknown Email" will be assigned to the email variable as a default value.
