@@ -1,5 +1,8 @@
 # HTTPContextAccessor in ASP.NET Core
 
+## Resource
+https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-9.0
+
 ```csharp
 using Serilog.Core;
 using Serilog.Events;
