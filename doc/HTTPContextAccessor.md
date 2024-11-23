@@ -115,3 +115,28 @@ var email = _httpContextAccessor.HttpContext?.User.Claims
         The ?? is the null-coalescing operator.
         If the expression on the left-hand side is null, the operator will return the value on the right-hand side as a fallback.
         If the email claim is not found (i.e., FirstOrDefault() returns null or ?.Value is null), "Unknown Email" will be assigned to the email variable as a default value.
+
+```csharp
+logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("Email", email));
+```
+
+Adds a custom property (in this case, Email) to a Serilog log event. Let's break it down to understand what each part does:
+Breakdown of the Code:
+
+- logEvent:
+        This represents the log event that is being created or logged. A LogEvent in Serilog contains information such as the log message, the log level (e.g., Information, Error), timestamp, and any associated properties (key-value pairs).
+        A log event can have one or more properties that provide additional contextual information about the event, such as user details, request IDs, or error codes.
+
+- AddPropertyIfAbsent:
+        This is a method of the LogEvent class in Serilog. It adds a property to the log event only if that property doesn't already exist.
+        This is useful to avoid adding the same property multiple times (in case an enricher or another part of your code tries to add the same property again).
+        The method takes a LogEventProperty and adds it to the Properties collection of the log event.
+        If the property with the same name already exists, it will not add it again, ensuring that you don’t inadvertently duplicate information.
+
+- propertyFactory.CreateProperty("Email", email):
+        propertyFactory is an instance of ILogEventPropertyFactory, which is used to create LogEventProperty objects (the key-value pairs that represent properties in a log event).
+        The CreateProperty method is used to create a new property.
+            The first argument is the name of the property, in this case, "Email".
+            The second argument is the value of the property, which in this case is the value of the email variable (this could be the email of the currently authenticated user, or "Unknown Email" if no email is found).
+        This will create a new LogEventProperty with the name "Email" and the value that is stored in the email variable.
+
