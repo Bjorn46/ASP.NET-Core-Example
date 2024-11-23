@@ -25,7 +25,7 @@
 14. [Authentication & Authorization](#authentication--authorization)
     - [Resources](#resources-1)
     - [How to setup Authentication & Authorization with SQL Database](#how-to-setup-authentication--authorization-with-sql-database)
-15. [Implement Account Controller](#implement-account-controller)
+    - [Implement Account Controller](#implement-account-controller)
 
 # ASP.NET Core web API development template
 
