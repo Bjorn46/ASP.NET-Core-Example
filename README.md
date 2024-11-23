@@ -628,7 +628,7 @@ public class EmailEnricher : ILogEventEnricher
 }
 ```
 
-For a more detailed insight to how the individual parts in the specified code, go to [See the detailed documentation here](./docs/HTTPContextAccessor.md)
+For a more detailed insight to how the individual parts in the specified code, go to [HTTPContextAccessor](./docs/HTTPContextAccessor.md)
 
 
 
