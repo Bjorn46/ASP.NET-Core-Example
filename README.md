@@ -690,6 +690,18 @@ Open terminal and navigate to the projects folder
 - dotnet ef migrations add Identity
 - dotnet ef database update Identity
 
+If you meet this issue
+
+Unable to create a 'DbContext' of type ''. The exception 'The entity type 'IdentityUserLogin<string>' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.' was thrown while attempting to create an instance. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728
+
+Then add this to DbContext
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+  base.OnModelCreating(modelBuilder); // Specifically this line!
+}
+```
+
 
 
 
