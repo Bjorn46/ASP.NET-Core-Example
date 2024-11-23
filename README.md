@@ -632,6 +632,9 @@ For a more detailed insight to how the individual parts in the specified code, g
 
 # Authentication & Authorization
 
+## Resources
+Building Web APIs with ASP.NET Core Chapter 9 "Authentication and authorization"
+
 - Authentication
 is the process of verifying that “you are who you say you are“
 
@@ -643,6 +646,8 @@ is the process of verifying that “you are permitted to do what you are trying 
 ![billede](https://github.com/user-attachments/assets/648a64bf-de0c-49a7-9c27-e2358ca4d8e0)
 
 ## How to setup Authentication & Authorization with SQL Database
+
+The following setup of Authentication and Authorization follows the book "Chapter 9 "Authentication and authorization" in Building Web APIs with ASP.NET Core"
 
 ### Prerequisites
 Install the following nuget packages:
@@ -715,9 +720,97 @@ Now you should see your new Identity tables
 
 ![billede](https://github.com/user-attachments/assets/f9f1168d-dc7b-4613-b578-471f70d10f14)
 
+## Setting up the services and middleware
 
+- Add the ASP.NET Core Identity service to the service container
+- Configure the minimum security requirements for user passwords 
+- Add the ASP.NET authentication middleware
 
+In program.cs
 
+```csharp
+using Microsoft.AspNetCore.Identity;
+
+//mising code...
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Configure services for Identity
+builder.Services.AddIdentity<ApiUser, IdentityRole>(options =>
+{
+    // Password requirements
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 8;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()  // Your ApplicationDbContext here
+.AddDefaultTokenProviders();
+```
+
+## Add Authentication service
+
+![billede](https://github.com/user-attachments/assets/c1a1c75f-13a6-467a-aa33-98d64fa0ee81)
+
+In program.cs
+
+```csharp
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens; 
+
+// Code missing
+
+// Configure JWT authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JWT:Audience"],
+
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
+        )
+    };
+});
+```
+
+## Updating the appsettings.Json file
+
+```json
+"JWT": {
+    "ValidAudience": "http://localhost:4200",
+    "ValidIssuer": "http://localhost:5250",
+    "Secret": "YourSuperSecretKeyHereItShouldBeAtLeast32CharactersLong"
+  }
+```
+
+Moving the SigningKey in the secret.json file would ensure an even better security posture (Be sure to do that in real projects)
+
+## Add the authentication middleware
+Add the ASP.NET Core authentication middleware immediately before app.UseAuthorization();
+
+```csharp
+app.UseAuthentication();
+app.UseAuthorization();
+```
+
+## Implement Account Controller
+... Missing, follow the book instructions
 
 
 
