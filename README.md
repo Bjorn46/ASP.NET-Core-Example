@@ -530,15 +530,56 @@ LogProperties is used to contextual data, and give insights to e.g. http request
 - LogInfo
 LogInfo is a nested structure within LogProperties that focuses on describing the specific operation or task being logged.
 
-## Querying logs with Mongo Driver and Custom Enrichers
+# Querying logs with Mongo Driver and Custom Enrichers
+
+## Reference
+- https://www.ctrlaltdan.com/2018/08/14/custom-serilog-enrichers/
+- https://rmauro.dev/serilog-custom-enricher-on-aspnet-core/
+
+## How it works
+
+How Serilog Uses ILogEventEnricher:
+
+- You create a custom enricher (like the EmailEnricher).
+- You register the enricher in the Serilog configuration.
+- Each time a log is written, Serilog will call the Enrich method, automatically adding the extra properties (like the user's email) to the log entries.
+
+Here is an example on how to implement a HTTP Request custom enricher.
+
+```csharp
+public class HttpMethodEnricher : ILogEventEnricher
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public HttpMethodEnricher(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
+    {
+        var httpMethod = _httpContextAccessor.HttpContext?.Request.Method ?? "Unknown";
+        logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("HttpMethod", httpMethod));
+    }
+}
+```
+In program.cs
+
+```csharp
+ // Configure Host to use serilog (Reads from appsettings.json)
+ builder.Host.UseSerilog((ctx, lc) =>
+ {
+     lc.ReadFrom.Configuration(ctx.Configuration) // Reads configuration from appsettings.json
+       .Enrich.With(new EmailEnricher(new HttpContextAccessor())) // Custom email enricher
+       .Enrich.With(new HttpMethodEnricher(new HttpContextAccessor())); // Custom http method enricher
+ });
+```
 
 As part of serilog, you can create custom Enrichers. These enrichers will enrich every log with e.g a http request, email adress or user name.
 
 See the implementation in the following files on how to query logs.
 
 /App/Controllers/LogController.cs | /App/CustomEnricher/... | /App/Models/LogEntry.cs...LogInfo.cs...LogProperties.cs | /App/Services/LogService.cs
-
-Remember to see individual controller that logs to the database.
 
 
 
