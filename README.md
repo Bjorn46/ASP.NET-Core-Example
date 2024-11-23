@@ -630,6 +630,17 @@ public class EmailEnricher : ILogEventEnricher
 
 For a more detailed insight to how the individual parts in the specified code, go to [HTTPContextAccessor](./doc/HTTPContextAccessor.md)
 
+# Authentication & Authorization
+
+- Authentication
+is the process of verifying that “you are who you say you are“
+
+- Authorization
+is the process of verifying that “you are permitted to do what you are trying to do”
+
+![billede](https://github.com/user-attachments/assets/5c294e89-8a10-4d2d-8b9f-18e0b5347c5f)
+
+
 
 
 
