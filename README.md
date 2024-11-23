@@ -538,11 +538,11 @@ LogInfo is a nested structure within LogProperties that focuses on describing th
 
 ## How it works
 
-How Serilog Uses ILogEventEnricher:
+We use serilog ILogEventEnricher interface, which is a popular structured logging library for .NET applications. It is part of the Serilog API and is used to create custom enrichers that add extra contextual information to log events.
 
-- You create a custom enricher (like the EmailEnricher).
-- You register the enricher in the Serilog configuration.
-- Each time a log is written, Serilog will call the Enrich method, automatically adding the extra properties (like the user's email) to the log entries.
+- You create a custom enricher (eg HTTP Request Enricher).
+- You register the enricher in the Serilog configuration (program.cs).
+- Each time a log is written, Serilog will call the Enrich method, automatically adding the extra properties (like the http request) to the log entries.
 
 Here is an example on how to implement a HTTP Request custom enricher.
 
@@ -580,6 +580,58 @@ As part of serilog, you can create custom Enrichers. These enrichers will enrich
 See the implementation in the following files on how to query logs.
 
 /App/Controllers/LogController.cs | /App/CustomEnricher/... | /App/Models/LogEntry.cs...LogInfo.cs...LogProperties.cs | /App/Services/LogService.cs
+
+### What is HttpContextAccesor?
+HttpContextAccessor is a service in ASP.NET Core that provides access to the current HTTP request and its associated context, such as the user, request headers, session, and other HTTP-specific data. 
+
+### Why is HttpContextAccessor Needed?
+In ASP.NET Core, the HttpContext is typically available in controllers and middleware, but in other parts of the application, such as background services or other non-request-based components, the HttpContext is not directly accessible. HttpContextAccessor solves this problem by allowing you to access the current HttpContext anywhere in the application
+
+### Key Features of HttpContextAccessor:
+
+- Access to the current HttpContext: Provides a way to access the HttpContext object, which represents the HTTP request and response, within your application.
+- Access to User Information: You can use it to access the authenticated user's information, such as claims, roles, or custom user data.
+- Access to Request Data: You can read data from the HTTP request, such as headers, query parameters, request path, or request body.
+- Thread-Local Storage: HttpContextAccessor uses thread-local storage, meaning it retrieves the HttpContext for the current thread, which ensures thread-safety in multi-threaded environments.
+
+### Example Usage of HttpContextAccessor in a Custom Enricher
+
+In the following example, we demonstrate how to use HttpContextAccessor within a Serilog custom enricher to add the current user's email to each log event. The custom enricher implements the ILogEventEnricher interface to enrich Serilog log events with additional properties.
+
+```csharp
+using Serilog.Core;
+using Serilog.Events;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+
+
+public class EmailEnricher : ILogEventEnricher
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    // Constructor injection for IHttpContextAccessor
+    public EmailEnricher(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    // The Enrich method adds custom properties to the log event
+    public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
+    {
+        // Access the current HttpContext and extract the user's email from claims
+        var email = _httpContextAccessor.HttpContext?.User.Claims
+            .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? "Unknown Email";
+
+        // Add the email as a property to the log event
+        logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("Email", email));
+    }
+}
+```
+
+For a more detailed insight to how the individual parts in the specified code, go to [See the detailed documentation here](./docs/HTTPContextAccessor.md)
+
+
+
 
 
 
