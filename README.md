@@ -1,3 +1,32 @@
+# Table of Contents
+
+1. [ASP.NET Core web API development template](#aspnet-core-web-api-development-template)
+2. [Rules for this repo](#rules-for-this-repo)
+3. [Resources for developing ASP.NET Core Applications](#resources-for-developing-aspnet-core-applications)
+4. [Typical Errors](#typical-errors)
+5. [Nuget packages](#nuget-packages)
+6. [EF Core setup](#ef-core-setup)
+7. [Database setup](#database-setup)
+   - [Setting up an SQL Server with Docker](#setting-up-an-sql-server-with-docker)
+   - [Connecting to SQL Server from Azure Data Studio](#connecting-to-sql-server-from-azure-data-studio)
+   - [Creating a Database](#creating-a-database)
+   - [Connecting our application to the database](#connecting-our-application-to-the-database)
+8. [Generate C# Code based on current database schema with scaffolding tool](#generate-c-sharp-code-based-on-current-database-schema-with-scaffolding-tool)
+9. [Migration](#migration)
+10. [Serilog Setup in ASP.NET Core](#serilog-setup-in-aspnet-core)
+    - [Adding Serilog enrichers](#adding-serilog-enrichers)
+11. [Setting Up ASP.NET with a Website: SignalR vs. RESTful API](#setting-up-aspnet-with-a-website-signalr-vs-restful-api)
+12. [MongoDB - Not Only SQL](#mongodb---not-only-sql)
+    - [Prerequisites](#prerequisites)
+    - [Resources](#resources)
+    - [Setup](#setup)
+    - [Testing Projections](#testing-projections)
+13. [Logging to MongoDB with Serilog](#logging-to-mongodb-with-serilog)
+14. [Authentication & Authorization](#authentication--authorization)
+    - [Resources](#resources-1)
+    - [How to setup Authentication & Authorization with SQL Database](#how-to-setup-authentication--authorization-with-sql-database)
+15. [Implement Account Controller](#implement-account-controller)
+
 # ASP.NET Core web API development template
 
 ## Rules for this repo
