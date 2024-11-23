@@ -642,8 +642,53 @@ is the process of verifying that “you are permitted to do what you are trying 
 
 ![billede](https://github.com/user-attachments/assets/648a64bf-de0c-49a7-9c27-e2358ca4d8e0)
 
-![billede](https://github.com/user-attachments/assets/37fc3870-24d3-4489-9f3b-7a1d514e9874)
+## How to setup Authentication & Authorization
 
+### Prerequisites
+Install the following nuget packages:
+- Microsoft.Extensions.Identity.Core
+Contains the membership system and the main classes and services to handle the various login features
+- Microsoft.AspNetCore.Identity.EntityFrameworkCore
+The ASP.NET Core Identity provider for EF Core
+- Microsoft.AspNetCore.Authentication.JwtBearer
+Contains middleware that enables ASP.NET Core applications to handle JSON Web Tokens (JWTs)
+
+### Make a new model class for User
+
+```csharp
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+
+namespace Assignment2.Models
+{
+    public class ApiUser : IdentityUser
+    {
+        [MaxLength(100)]
+        public string FullName { get; set; } = null!;
+    }
+}
+```
+
+### Add IdentityDbContext as base class for DbContext
+
+When we created our ApplicationDbContext class, we extended the DbContext base class. To make it capable of handling our new ApiUser entity, we need to change it with another base class that includes the ASP.NET Core Identity functionalities The name of this base class is IdentityDbContext
+
+```csharp
+public partial class Assignment2Context : IdentityDbContext<ApiUser>
+{
+    public Assignment2Context()
+    {
+    }
+
+    public Assignment2Context(DbContextOptions<Assignment2Context> options)
+        : base(options)
+    {
+```
+
+### Add and apply a new migration
+Open terminal and navigate to the projects folder
+- dotnet ef migrations add Identity
+- dotnet ef database update Identity
 
 
 
