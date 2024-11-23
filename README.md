@@ -1,11 +1,11 @@
 # Table of Contents
 
 1. [ASP.NET Core web API development template](#aspnet-core-web-api-development-template)
-2. [Rules for this repo](#rules-for-this-repo)
-3. [Resources for developing ASP.NET Core Applications](#resources-for-developing-aspnet-core-applications)
-4. [Typical Errors](#typical-errors)
-5. [Nuget packages](#nuget-packages)
-6. [EF Core setup](#ef-core-setup)
+    - [Rules for this repo](#rules-for-this-repo)
+    - [Resources for developing ASP.NET Core Applications](#resources-for-developing-aspnet-core-applications)
+    - [Typical Errors](#typical-errors)
+    - [Nuget packages](#nuget-packages)
+    - [EF Core setup](#ef-core-setup)
 7. [Database setup](#database-setup)
    - [Setting up an SQL Server with Docker](#setting-up-an-sql-server-with-docker)
    - [Connecting to SQL Server from Azure Data Studio](#connecting-to-sql-server-from-azure-data-studio)
