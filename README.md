@@ -1,4 +1,4 @@
-# ASP.NET Core web API development template
+![billede](https://github.com/user-attachments/assets/aa832649-af04-4d43-b4c4-b75a5c798f67)# ASP.NET Core web API development template
 This template was initially made for an assignment in Aarhus University.
 
 ## Rules for this repo
@@ -642,7 +642,7 @@ is the process of verifying that “you are permitted to do what you are trying 
 
 ![billede](https://github.com/user-attachments/assets/648a64bf-de0c-49a7-9c27-e2358ca4d8e0)
 
-## How to setup Authentication & Authorization
+## How to setup Authentication & Authorization with SQL Database
 
 ### Prerequisites
 Install the following nuget packages:
@@ -702,6 +702,18 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 }
 ```
 
+Then clear your current database
+
+![billede](https://github.com/user-attachments/assets/8eeba11c-2071-4a12-8268-7658fca5b462)
+
+Then try to run the same commands again
+
+- dotnet ef migrations add Identity
+- dotnet ef database update Identity
+
+Now you should see your new Identity tables
+
+![billede](https://github.com/user-attachments/assets/f9f1168d-dc7b-4613-b578-471f70d10f14)
 
 
 
