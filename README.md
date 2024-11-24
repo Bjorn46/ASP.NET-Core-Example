@@ -840,6 +840,7 @@ app.UseAuthorization();
 ## Implement Account Controller
 ... Missing, follow the book instructions
 
+# Containerize with Docker
 
 
 
