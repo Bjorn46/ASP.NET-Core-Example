@@ -841,6 +841,101 @@ app.UseAuthorization();
 ... Missing, follow the book instructions
 
 # Containerize with Docker
+We will spin up a SQL Database for data and a MongoDB Databasae for logging
+
+## Dockerfile implementation
+
+```Dockerfile
+# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+# This stage is used when running from VS in fast mode (Default for Debug configuration)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+
+# This stage is used to build the service project
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["Assignment2.csproj", "."]
+RUN dotnet restore "./Assignment2.csproj"
+COPY . .
+WORKDIR "/src/."
+RUN dotnet build "./Assignment2.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# This stage is used to publish the service project to be copied to the final stage
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./Assignment2.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Assignment2.dll"]
+```
+
+## Docker compose implementation
+
+```Dockerfile
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    user: root
+    environment:
+      SA_PASSWORD: "testPassword1"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./sql-scripts:/sql-scripts
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "testPassword1" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: >
+      bash -c "
+      /opt/mssql/bin/sqlservr &
+      sleep 30s &&
+      apt-get update &&
+      apt-get install -y mssql-tools unixodbc-dev &&
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P testPassword1 -i /sql-scripts/CreateDatabase.sql &&
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P testPassword1 -i /sql-scripts/CreateTables.sql &&
+      tail -f /dev/null
+      "
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
+```
+
+
 
 
 
