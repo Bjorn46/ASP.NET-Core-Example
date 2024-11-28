@@ -26,6 +26,7 @@
     - [Resources](#resources-1)
     - [How to setup Authentication & Authorization with SQL Database](#how-to-setup-authentication--authorization-with-sql-database)
     - [Implement Account Controller](#implement-account-controller)
+15. [Containerize your ASP.NET App with Docker](#Containerize-with-Docker)
 
 # ASP.NET Core web API development template
 
