@@ -45,6 +45,12 @@
 If you have errors, then you might miss the obj folder. 
 Try compile the program and the obj folder will be generated, then the errors should dissapear.
 
+## Create the Project
+- Download the .NET SDK: https://dotnet.microsoft.com/en-us/
+- Verify the installation by running the following command: ```dotnet --version```
+- Run the following command to create a new ASP.NET Core webapi: ```dotnet new webapi -n MyWebAPI```
+
+
 ## Nuget packages
 Remember to download following nuget packages:
 - dotnet add package Microsoft.EntityFrameworkCore.SqlServer
