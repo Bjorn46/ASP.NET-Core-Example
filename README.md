@@ -48,6 +48,7 @@ Try compile the program and the obj folder will be generated, then the errors sh
 ## Create the Project
 - Download the .NET SDK: https://dotnet.microsoft.com/en-us/
 - Verify the installation by running the following command: ```dotnet --version```
+- Check which .NET version you are using with the following command: ```dotnet --list-sdks``` // It uses the highest version by default
 - Run the following command to create a new ASP.NET Core webapi: ```dotnet new webapi -n MyWebAPI```
 
 
